@@ -15,6 +15,7 @@ const Checkout = props => {
   const streetInputRef = useRef()
   const postalCodeInputRef = useRef()
   const cityInputRef = useRef()
+
   const confirmHandler = event => {
     event.preventDefault()
     const enteredName = nameInputRef.current.value
@@ -37,6 +38,13 @@ const Checkout = props => {
       street: streetIsValid,
       postalCode: postalCodeIsValid,
       city: cityIsValid
+    })
+
+    props.onConfirm({
+      name: enteredName,
+      city: enteredCity,
+      postalCode: enteredPostalCode,
+      street: enteredStreet
     })
   }
 

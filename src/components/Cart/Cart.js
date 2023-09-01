@@ -39,6 +39,20 @@ const Cart = props => {
   const orderHandler = () => {
     setShowCheckout(true)
   }
+
+  const submitOrderHandler = userData => {
+    fetch(
+      'https://meal-http-4df27-default-rtdb.asia-southeast1.firebasedatabase.app/orders.json',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(userData)
+      }
+    )
+  }
+
   return (
     <Modal onClose={props.onClose}>
       {cartItems}
@@ -46,7 +60,12 @@ const Cart = props => {
         <span>Total Amount</span>
         <span>{totalAmount}</span>
       </div>
-      {showCheckout && <Checkout onCancel={props.onClose}></Checkout>}
+      {showCheckout && (
+        <Checkout
+          onCancel={props.onClose}
+          onConfirm={submitOrderHandler}
+        ></Checkout>
+      )}
       {!showCheckout && (
         <div className={classes.actions}>
           <button className={classes['button--alt']} onClick={props.onClose}>
