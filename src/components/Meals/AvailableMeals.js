@@ -5,6 +5,7 @@ import { useEffect, useState, useCallback } from 'react'
 
 const AvailableMeals = () => {
   const [meals, setMeals] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const fetchingMeals = useCallback(async () => {
     const response = await fetch(
@@ -13,6 +14,7 @@ const AvailableMeals = () => {
     const data = await response.json()
 
     setMeals(Object.values(data)[0].meals)
+    setIsLoading(false)
   }, [])
 
   useEffect(() => {
@@ -31,9 +33,12 @@ const AvailableMeals = () => {
 
   return (
     <section className={classes.meals}>
-      <Card>
-        <ul>{mealsList}</ul>
-      </Card>
+      {isLoading && <p className={classes.loading}>Loading...</p>}
+      {!isLoading && (
+        <Card>
+          <ul>{mealsList}</ul>
+        </Card>
+      )}
     </section>
   )
 }
